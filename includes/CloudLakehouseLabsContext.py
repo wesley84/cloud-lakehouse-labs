@@ -15,14 +15,18 @@ class CloudLakehouseLabsContext:
     text = unicodedata.normalize('NFD', text)
     text = text.encode('ascii', 'ignore').decode("utf-8").lower()
     self.__user_id = re.sub("[^a-zA-Z0-9]", "_", text)
+    self.__volumeName = useCase
 
     # Create the working schema
     catalogName = None
     databaseName = self.__user_id + '_' + self.__useCase
-    for catalog in ['cloud_lakehouse_labs', 'main', 'hive_metastore']:
+    volumeName = self.__volumeName
+    for catalog in ['cloud_lakehouse_labs', 'main', 'dbdemos', 'hive_metastore']:
       try:
         catalogName = catalog
-        if catalogName != 'hive_metastore': spark.sql("create database if not exists " + catalog + "." + databaseName)
+        if catalogName != 'hive_metastore':
+          spark.sql("create database if not exists " + catalog + "." + databaseName)
+          spark.sql("CREATE VOLUME " + catalog + "." + databaseName + "." + volumeName)
         else: spark.sql("create database if not exists " + databaseName)
         break
       except Exception as e:

@@ -133,7 +133,7 @@ print("Specify the following storage location for the DLT pipeline tables:\n" + 
 # COMMAND ----------
 
 # DBTITLE 1,Count the rows in the churn_features table
-sqlStatement = "select count(*) from hive_metastore." + databaseForDLT + ".churn_features"
+sqlStatement = "select count(*) from dbdemos." + databaseForDLT + ".churn_features"
 print("Executing:\n" + sqlStatement)
 display(spark.sql(sqlStatement))
 
@@ -141,14 +141,14 @@ display(spark.sql(sqlStatement))
 
 # DBTITLE 1,Retrieve the table details
 # Scroll the output to verify the storage location of the table
-sqlStatement = "DESCRIBE EXTENDED hive_metastore." + databaseForDLT + ".churn_features"
+sqlStatement = "DESCRIBE EXTENDED dbdemos." + databaseForDLT + ".churn_features"
 print("Executing:\n" + sqlStatement)
 display(spark.sql(sqlStatement))
 
 # COMMAND ----------
 
 # DBTITLE 1,Retrieve the table history
-sqlStatement = "DESCRIBE HISTORY hive_metastore." + databaseForDLT + ".churn_features"
+sqlStatement = "DESCRIBE HISTORY dbdemos." + databaseForDLT + ".churn_features"
 print("Executing:\n" + sqlStatement)
 display(spark.sql(sqlStatement))
 

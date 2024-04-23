@@ -48,16 +48,16 @@
 
 # COMMAND ----------
 
-userRawDataDirectory = rawDataDirectory + '/users'
-print('User raw data under folder: ' + userRawDataDirectory)
+userRawDataVolume = rawDataVolume + '/users'
+print('User raw data under folder: ' + userRawDataVolume)
 
 # Listing the files under the directory
-for fileInfo in dbutils.fs.ls(userRawDataDirectory): print(fileInfo.name)
+for fileInfo in dbutils.fs.ls(userRawDataVolume): print(fileInfo.name)
 
 # COMMAND ----------
 
 # DBTITLE 1,Achieve the same with a "unix-like" command
-# MAGIC %fs ls /cloud_lakehouse_labs/retail/raw/users
+# MAGIC %fs ls /Volumes/dbdemos/wesley_dias_databricks_com_retail/retail/users
 
 # COMMAND ----------
 
@@ -67,7 +67,7 @@ for fileInfo in dbutils.fs.ls(userRawDataDirectory): print(fileInfo.name)
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SELECT * FROM json.`/cloud_lakehouse_labs/retail/raw/users`
+# MAGIC SELECT * FROM json.`/Volumes/dbdemos/wesley_dias_databricks_com_retail/retail/users`
 
 # COMMAND ----------
 
@@ -89,6 +89,13 @@ for fileInfo in dbutils.fs.ls(userRawDataDirectory): print(fileInfo.name)
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC --work around. Investigate why it's not getting setup part of code
+# MAGIC use catalog dbdemos;
+# MAGIC use database wesley_dias_databricks_com_retail;
+
+# COMMAND ----------
+
 # DBTITLE 1,Storing the raw data in "bronze" Delta tables, supporting schema evolution and incorrect data
 def ingest_folder(folder, data_format, table):
   bronze_products = (spark.readStream
@@ -105,9 +112,9 @@ def ingest_folder(folder, data_format, table):
             .trigger(once = True) #Remove for real time streaming
             .table(table)) #Table will be created if we haven't specified the schema first
   
-ingest_folder(rawDataDirectory + '/orders', 'json', 'churn_orders_bronze')
-ingest_folder(rawDataDirectory + '/events', 'csv', 'churn_app_events')
-ingest_folder(rawDataDirectory + '/users', 'json',  'churn_users_bronze').awaitTermination()
+ingest_folder(rawDataVolume + '/orders', 'json', 'churn_orders_bronze')
+ingest_folder(rawDataVolume + '/events', 'csv', 'churn_app_events')
+ingest_folder(rawDataVolume + '/users', 'json',  'churn_users_bronze').awaitTermination()
 
 # COMMAND ----------
 

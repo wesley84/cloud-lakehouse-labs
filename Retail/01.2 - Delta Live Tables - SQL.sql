@@ -16,7 +16,7 @@ CREATE STREAMING LIVE TABLE churn_app_events (
   CONSTRAINT correct_schema EXPECT (_rescued_data IS NULL)
 )
 COMMENT "Application events and sessions"
-AS SELECT * FROM cloud_files("/cloud_lakehouse_labs/retail/raw/events", "csv", map("cloudFiles.inferColumnTypes", "true"))
+AS SELECT * FROM cloud_files("/Volumes/dbdemos/wesley_dias_databricks_com_retail/retail/events", "csv", map("cloudFiles.inferColumnTypes", "true"))
 
 -- COMMAND ----------
 
@@ -25,7 +25,7 @@ CREATE STREAMING LIVE TABLE churn_orders_bronze (
   CONSTRAINT orders_correct_schema EXPECT (_rescued_data IS NULL)
 )
 COMMENT "Spending score from raw data"
-AS SELECT * FROM cloud_files("/cloud_lakehouse_labs/retail/raw/orders", "json", map("cloudFiles.inferColumnTypes", "true"))
+AS SELECT * FROM cloud_files("/Volumes/dbdemos/wesley_dias_databricks_com_retail/retail/orders", "json", map("cloudFiles.inferColumnTypes", "true"))
 
 -- COMMAND ----------
 
@@ -34,7 +34,7 @@ CREATE STREAMING LIVE TABLE churn_users_bronze (
   CONSTRAINT correct_schema EXPECT (_rescued_data IS NULL)
 )
 COMMENT "raw user data coming from json files ingested in incremental with Auto Loader to support schema inference and evolution"
-AS SELECT * FROM cloud_files("/cloud_lakehouse_labs/retail/raw/users", "json", map("cloudFiles.inferColumnTypes", "true"))
+AS SELECT * FROM cloud_files("/Volumes/dbdemos/wesley_dias_databricks_com_retail/retail/users", "json", map("cloudFiles.inferColumnTypes", "true"))
 
 -- COMMAND ----------
 
